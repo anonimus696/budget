@@ -41,7 +41,7 @@ class App extends React.Component {
         };
 
         return (
-            <Router>
+            <Router basename='budget'>
                 <Wrapper>
                     <GlobalStyle />
 

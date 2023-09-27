@@ -1,6 +1,6 @@
 {
   "homepage": "https://anonimus696.github.io/budget/",
-  "name": "storybook",
+  "name": "budget",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
