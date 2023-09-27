@@ -1,0 +1,22 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Transaction comment should show transaction 1`] = `
+<DocumentFragment>
+  <div
+    class="sc-bcPKhP eBdqPb"
+    value="0"
+  >
+    <div
+      class="sc-grXZZQ dZjqqV"
+    />
+    <div
+      class="sc-dkjKgF bOEvHs"
+    >
+      0.00
+    </div>
+    <div
+      class="sc-hLclGa jBJIOt"
+    />
+  </div>
+</DocumentFragment>
+`;
