@@ -50,9 +50,9 @@ class App extends React.Component {
                     <Suspense fallback={<div>Loading...</div>}>
                         <Routes>
                             <Route path="/" element={<Home />} />
-                            <Route path="statistics/*" element={<Statistics />} />
-                            <Route path="about/*" element={<About />} />
-                            <Route path="settings/*" element={<Settings />} />
+                            <Route path="/statistics" element={<Statistics />} />
+                            <Route path="/about" element={<About />} />
+                            <Route path="/settings" element={<Settings />} />
                         </Routes>
                     </Suspense>
                 </Wrapper>
@@ -63,3 +63,9 @@ class App extends React.Component {
 }
 
 export default App;
+/*
+<Route path="/" element={<Home />} />
+<Route path="statistics/*" element={<Statistics />} />
+<Route path="about/*" element={<About />} />
+<Route path="settings/*" element={<Settings />} />
+*/
