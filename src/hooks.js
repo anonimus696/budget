@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback } from "react";
 import { STATUSES } from './constants';
 import { getData, addItem, deleteItem, updateItem } from './utils/indexdb'
 import Balance from "./components/Balance";
+import { conversionRates } from "./constants";
 
 export const useBooleanToggle = (initialStatus = false) => {
     const [status, setStatus] = useState(initialStatus);
@@ -83,7 +84,8 @@ export const useData = () => {
         }));
 
         addItem(transaction);
-    }, [])
+    }, [setState])
+
 
     const onDelete = useCallback((id) => {
         // Видалення транзакції за її id
@@ -125,4 +127,31 @@ export const useData = () => {
         onStarClick,
         loadMoreRows
     }
+}
+
+export const convertValueToSelectedCurrency = (value, currency) => {
+    const convertedValue = value * conversionRates[currency];
+
+    return convertedValue.toFixed(2);
+};
+
+export default convertValueToSelectedCurrency;
+
+
+export function useScreenSize() {
+    const [screenWidth, setScreenWidth] = useState(window.innerWidth);
+
+    useEffect(() => {
+        const handleResize = () => {
+            setScreenWidth(window.innerWidth);
+        };
+
+        window.addEventListener("resize", handleResize);
+
+        return () => {
+            window.removeEventListener("resize", handleResize);
+        };
+    }, []);
+
+    return screenWidth;
 }

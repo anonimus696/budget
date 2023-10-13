@@ -15,18 +15,19 @@ display: flex;
 align-items: center;
 justify-content: center;
 opacity: 1;
+z-index: 3;
 `
 const Content = styled.div`
 position: relative;
 padding: 20px;
 box-sizing: border-box;
 min-height: 50px;
-min-width: 50px;
-max-height: 80%;
-max-width: 80%;
+min-width: 350px;
+max-height: 100%;
+max-width: 100%; 
 box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
-background-color: #fff;
-border-radius: 2px;
+background-color: ${({ theme }) => theme.background};
+border-radius: 20px;
 transform: translateY(0);
 opacity: 1;
 `

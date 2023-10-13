@@ -8,7 +8,8 @@ const reducer = (state, action) => {
         case 'changeCurrency': {
             return {
                 ...state,
-                currency: action.currency
+                currency: action.currency,
+                symbol: action.symbol
             }
         };
 

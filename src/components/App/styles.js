@@ -5,6 +5,7 @@ export const GlobalStyle = createGlobalStyle`
     padding: 0;
     margin: 0;
     height: 100%;
+    overflow: hidden;
   }
   html {
     height: 100%;
@@ -15,4 +16,10 @@ export const GlobalStyle = createGlobalStyle`
 export const Wrapper = styled.div`
     padding: 5px;
     background: ${props => props.theme.background};
+
+`;
+export const Container = styled.div`
+    padding: 0 10px;
+    max-width: 1180px;
+    margin: 0 auto;
 `;

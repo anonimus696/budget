@@ -1,4 +1,4 @@
-import React, { Suspense, lazy } from 'react';
+import React, { Suspense, lazy, useEffect, useState } from 'react';
 import {
     BrowserRouter as Router,
     Routes,
@@ -12,54 +12,64 @@ import Settings from '../Settings';
 // import Statistics from '../Statistics';
 import Header from '../Header';
 
-import { Wrapper, GlobalStyle } from './styles';
+
+import { Wrapper, GlobalStyle, Container } from './styles';
+
+
 
 const Statistics = lazy(() => import('../Statistics'));
 
-class App extends React.Component {
-    constructor(props) {
-        super(props);
+function App() {
+    const [loading, setLoading] = useState(true);
+    const [headerData, setHeaderData] = useState(null);
 
-        this.state = {
-            loading: true
-        }
+    const handleHeaderDataChange = (data) => {
+        // Оновлюємо дані з Header
+        setHeaderData(data);
     }
 
-    componentDidMount() {
-        open().then(() => {
-            this.setState({
-                loading: false
+    useEffect(() => {
+        open()
+            .then(() => {
+                setLoading(false);
             })
-        }).catch(() => {
-            console.error('Помилка')
-        });
+            .catch(() => {
+                console.error('Помилка');
+            });
+    }, []);
+
+
+    if (loading) {
+        return <div>Loading...</div>;
     }
 
-    render() {
-        if (this.state.loading) {
-            return <div>Loading...</div>
-        };
 
-        return (
-            <Router basename='budget'>
-                <Wrapper>
+    return (
+        <Router basename="budget">
+            <Wrapper>
+                <Container>
                     <GlobalStyle />
-
-                    <Header />
-
+                    <Header
+                        onChange={handleHeaderDataChange}//!
+                    />
                     <Suspense fallback={<div>Loading...</div>}>
                         <Routes>
-                            <Route path="/" element={<Home />} />
+                            <Route
+                                path="/"
+                                element={<Home
+                                    headerData={headerData}//!
+                                    setHeaderData={setHeaderData}//!
+                                />}
+                            />
                             <Route path="/statistics" element={<Statistics />} />
                             <Route path="/about" element={<About />} />
                             <Route path="/settings" element={<Settings />} />
                         </Routes>
                     </Suspense>
-                </Wrapper>
-            </Router>
-        )
-    }
-
+                </Container>
+            </Wrapper>
+        </Router>
+    );
 }
 
 export default App;
