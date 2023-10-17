@@ -106,6 +106,9 @@ min-width: 80px;
 height: 40px;
 transition: all 0.3s ease 0s;
 margin-bottom: 15px;
+&.charts__button{
+    padding: 10px;
+}
 &.chosen { 
     color: ${({ theme }) => theme.linkColor};
     background-color: transparent;

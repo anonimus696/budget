@@ -3,12 +3,17 @@ import styled from 'styled-components'
 export const Charts = styled.div`
 display: flex;
 min-height: 300px;
-justify-content: center;
+justify-content: space-around;
+align-items: center;
+flex-wrap: wrap;
 
 
-.charts__round{
+.caharts__barcontainer{
     display: flex;
-    justify-content: center;
+}
+.charts__buttons{
+    display: flex;
+    justify-content: end;
 }
 `;
 Charts.displayName = 'FilterButton';

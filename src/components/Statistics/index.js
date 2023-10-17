@@ -1,45 +1,41 @@
 import React, { useEffect, useState, useContext } from 'react';
 import { getItems } from "../../utils/indexdb";
 
-import { PieChart, Pie, Tooltip, Cell, Legend, Line, YAxis, XAxis, CartesianGrid, Bar, BarChart } from "recharts";
+import { PieChart, Pie, Tooltip, Cell, Legend, Line, YAxis, XAxis, CartesianGrid, Bar, BarChart, LabelList } from "recharts";
 
 
 import { Charts } from './styles'
 
 import convertValueToSelectedCurrency from '../../hooks';
 import { AppContext } from "../../providers/context";
+import { Button } from '../Form/styles';
 
 
 
 const style = {
-    top: "40%",
+    top: "50%",
     right: "-7%",
     transform: 'translate(0, -50%)',
     lineHeight: '24px',
 };
 
-const style1 = {
-    top: "40%",
-    right: "-37%",
-    transform: 'translate(0, -50%)',
-    lineHeight: '24px',
-};
 
 export const Statistics = () => {
     const { state } = useContext(AppContext);
     const [data, setData] = useState([]); // Додавання стану для даних
 
-    const incomeCategories = ['Зарплатня', 'Колядки', 'Дав Бог', 'Зайшла ставка', 'Інше'];//!
-    const expenseCategories = ['Продукти', 'Одяг', 'Комуналка', 'Інше'];//!
-
-
     const [dataIncome, setDataIncome] = useState([]); // Додавання стану для даних
     const [dataExpenses, setDataExpenses] = useState([]); // Додавання стану для даних
+
+    const [currentChart, setCurrentChart] = useState('chartEarnings'); //
 
     useEffect(() => {
 
         const setOperations = async () => {
             try {
+                const incomeCategories = ['Зарплатня', 'Колядки', 'Дав Бог', 'Зайшла ставка', 'Інше'];//!
+                const expenseCategories = ['Продукти', 'Одяг', 'Комуналка', 'Інше'];//!
+
                 const allTransactions = await getItems();
 
                 const transactionsByCategoryIncome = {};
@@ -125,24 +121,6 @@ export const Statistics = () => {
 
 
     const COLORS = ['lightgreen', 'pink', '#FFBB28', '#FF8042'];
-    const COLORS1 = [
-        // зелений
-        '#0088FE',
-        // синій
-        '#00C49F',
-        // червоний
-        '#FF0000',
-        // жовтий
-        'lightgreen',
-        // помаранчевий
-        '#FF8C00',
-        // фіолетовий
-        '#8B00FF',
-        // чорний
-        '#000',
-        // рожевий
-        'pink',
-    ];
 
     const RADIAN = Math.PI / 180;
     const renderCustomizedLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, percent, index }) => {
@@ -158,16 +136,33 @@ export const Statistics = () => {
     };
 
 
+    const chartChanger = (e) => {
+        const target = e.target;
+        const buttonEarnings = document.getElementById("chartEarnings");
+        const buttonSpendings = document.getElementById("chartSpendings")
+
+        target.classList.add("active");
+        setCurrentChart(target.id)
+
+        if (target.id === 'chartEarnings') {
+            buttonSpendings.classList.remove("active");
+        } else {
+            buttonEarnings.classList.remove("active");
+        }
+    }
+
+
     return (
+
         <>
-            <h1>Chart</h1>
+            <h1>Detailed charts about Earnings and Spendings</h1>
             <Charts>
                 <div className='charts__round'>
                     <PieChart className='charts__round' width={300} height={300}>
                         <Pie
                             data={data}
                             cx="40%"
-                            cy="40%"
+                            cy="50%"
                             labelLine={false}
                             label={renderCustomizedLabel}
                             outerRadius={100}
@@ -182,45 +177,62 @@ export const Statistics = () => {
                         <Legend iconSize={10} layout="vertical" verticalAlign="middle" wrapperStyle={style} />
                     </PieChart>
                 </div>
-                <div className='charts__round'>
-                    <BarChart
-                        width={450}
-                        height={300}
-                        data={dataIncome}
-                        margin={{
-                            top: 5,
-                            right: 30,
-                            left: 20,
-                            bottom: 5,
-                        }}
-                        barSize={20}
-                    >
-                        <XAxis dataKey="name" scale="point" padding={{ left: 5, right: 5 }} />
-                        <YAxis />
-                        <Tooltip />
-                        <CartesianGrid strokeDasharray="3 3" />
-                        <Bar dataKey="value" fill="lightgreen" background={{ fill: '#eee' }} />
-                    </BarChart>
-                </div>
-                <div className='charts__round'>
-                    <BarChart
-                        width={450}
-                        height={300}
-                        data={dataExpenses}
-                        margin={{
-                            top: 5,
-                            right: 30,
-                            left: 20,
-                            bottom: 5,
-                        }}
-                        barSize={20}
-                    >
-                        <XAxis dataKey="name" scale="point" padding={{ left: 5, right: 5 }} />
-                        <YAxis />
-                        <Tooltip />
-                        <CartesianGrid strokeDasharray="3 3" />
-                        <Bar dataKey="value" fill="pink" background={{ fill: '#eee' }} />
-                    </BarChart>
+                <div className='caharts__container'>
+                    <div className='charts__buttons'>
+                        <Button id='chartEarnings' className='charts__button active' onClick={chartChanger}>Earnings</Button>
+                        <Button id='chartSpendings' className='charts__button' onClick={chartChanger}>Spendings</Button>
+                    </div>
+                    <div className='caharts__barcontainer'>
+                        {currentChart === 'chartEarnings' ?
+                            <div className='charts__income'>
+                                <BarChart
+                                    width={300}
+                                    height={300}
+                                    data={dataIncome}
+                                    margin={{
+                                        top: 5,
+                                        right: 30,
+                                        left: 20,
+                                        bottom: 5,
+                                    }}
+                                    barSize={20}
+                                >
+                                    <XAxis dataKey="name" scale="point" padding={{ left: 5, right: 5 }} fontSize={12} angle={45} />
+                                    <YAxis />
+                                    <Tooltip />
+                                    <CartesianGrid strokeDasharray="3  3" />
+                                    <Bar dataKey="value" fill="lightgreen" background={{ fill: '#eee' }} />
+                                    {/* <Bar dataKey="value" fill="#82ca9d">
+                                        <LabelList dataKey="name" position="top" angle={0} />
+                                    </Bar> */}
+                                </BarChart>
+                            </div>
+                            :
+                            <div className='charts__expenses'>
+                                <BarChart
+                                    width={450}
+                                    height={300}
+                                    data={dataExpenses}
+                                    margin={{
+                                        top: 5,
+                                        right: 30,
+                                        left: 20,
+                                        bottom: 5,
+                                    }}
+                                    barSize={20}
+                                >
+                                    <XAxis dataKey="name" scale="point" padding={{ left: 5, right: 5 }} fontSize={15} />
+                                    <YAxis />
+
+                                    <Tooltip />
+                                    <CartesianGrid strokeDasharray="3 3" />
+                                    <Bar dataKey="value" fill="pink" background={{ fill: '#eee' }} />
+
+                                </BarChart>
+                            </div>
+                        }
+
+                    </div>
                 </div>
             </Charts>
 

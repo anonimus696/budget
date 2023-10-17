@@ -38,7 +38,7 @@ export const Nav = styled.nav`
     }
 
     @media (max-width:767.98px){
-        position: absolute;
+        position: fixed;
         bottom: 0;
         left: 0px;
         z-index: 2;
