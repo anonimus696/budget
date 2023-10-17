@@ -16,6 +16,7 @@
     "react-virtualized-auto-sizer": "^1.0.20",
     "react-window": "^1.8.9",
     "react-window-infinite-loader": "^1.0.9",
+    "recharts": "^2.8.0",
     "styled-components": "^6.0.7",
     "web-vitals": "^2.1.4"
   },

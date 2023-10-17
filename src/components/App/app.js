@@ -9,7 +9,7 @@ import { open } from '../../utils/indexdb';
 import Home from '../Home';
 import About from '../About';
 import Settings from '../Settings';
-// import Statistics from '../Statistics';
+import Statistics from '../Statistics';
 import Header from '../Header';
 
 
@@ -17,7 +17,7 @@ import { Wrapper, GlobalStyle, Container } from './styles';
 
 
 
-const Statistics = lazy(() => import('../Statistics'));
+// const Statistics = lazy(() => import('../Statistics'));
 
 function App() {
     const [loading, setLoading] = useState(true);

@@ -35,6 +35,7 @@ TransactionDate.displayName = 'TransactionDate'
 export const Value = styled.div`
 flex: 1 1 30%;
 @media (max-width:767.98px){
+  white-space: nowrap;
 }
 
 `;

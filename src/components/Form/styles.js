@@ -65,7 +65,8 @@ export const Input = styled.input`
 padding: 0 5px;
 border: 1px solid #000;
 border-radius: 5px;
-min-width: 80px;
+/* flex: 1 1 auto; */
+min-width: 280px;
 height: 40px;
 outline: none;
 transition: all 0.3s ease 0s;

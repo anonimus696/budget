@@ -8,7 +8,6 @@ import Transaction from '../Transaction';
 import { Filter, FilterButton } from "./styles";
 import { CloseContainer, LeftRight, RightLeft } from '../Transaction/styles'
 
-import { useData } from '../../hooks';//!
 
 
 

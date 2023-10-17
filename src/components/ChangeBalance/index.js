@@ -60,7 +60,6 @@ export const ChangeBalance = ({ onChange }) => {
         } else {
             // Navigate to the Home component
             navigate('/');
-
             // Open the modal
             setOpenModal(true);
         }
