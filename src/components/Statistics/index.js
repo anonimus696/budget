@@ -10,11 +10,16 @@ import convertValueToSelectedCurrency from '../../hooks';
 import { AppContext } from "../../providers/context";
 import { Button } from '../Form/styles';
 
+import { BalanceContainer } from '../Balance/styles.js'
+import up from '../../assets/img/up.svg'
+import down from '../../assets/img/down.svg'
 
+import { useSpring, animated } from 'react-spring';//!
+import { useScreenSize } from '../../hooks';
 
 const style = {
     top: "50%",
-    right: "-7%",
+    right: "-2%",
     transform: 'translate(0, -50%)',
     lineHeight: '24px',
 };
@@ -29,7 +34,39 @@ export const Statistics = () => {
 
     const [currentChart, setCurrentChart] = useState('chartEarnings'); //
 
+    const [totalTransactions, setTotalTransactions] = useState(0);
+    const [totalEarnings, setTotalEarnings] = useState(0);
+    const [totalSpendings, setTotalSpendings] = useState(0);
+
+    //!
+    const [isAnimating, setIsAnimating] = useState(false);
+
+    const useAnimatedCounter = (value) => {
+
+        const spring = useSpring({
+            from: { number: 0 },
+            to: { number: value },
+            config: { duration: 2000 },
+            onRest: () => {
+                setIsAnimating(false);
+            },
+        });
+
+        return {
+            isAnimating,
+            animatedValue: isAnimating ? spring.number.interpolate((val) => Math.floor(val)) : value,
+        };
+    };
+
+    const totalTransactionsCounter = useAnimatedCounter(totalTransactions);
+    const totalEarningsCounter = useAnimatedCounter(totalEarnings);
+    const totalSpendingsCounter = useAnimatedCounter(totalSpendings);
+    //!
+
+
     useEffect(() => {
+
+        setIsAnimating(true);
 
         const setOperations = async () => {
             try {
@@ -40,6 +77,14 @@ export const Statistics = () => {
 
                 const transactionsByCategoryIncome = {};
                 const transactionsByCategoryExpenses = {};
+
+                const total = allTransactions.length;
+                const earningsCount = allTransactions.filter(transaction => transaction.placeholder === "Earnings").length;
+                const spendingsCount = allTransactions.filter(transaction => transaction.placeholder === "Spendings").length;
+
+                setTotalTransactions(total);
+                setTotalEarnings(earningsCount);
+                setTotalSpendings(spendingsCount);
                 //!
 
                 // Спочатку створіть об'єкт для кожної категорії зі значенням 0
@@ -81,11 +126,12 @@ export const Statistics = () => {
 
                 const transactionsByCategoryIncomeArray = Object.keys(transactionsByCategoryIncome).map(category => ({
                     name: category,
-                    value: transactionsByCategoryIncome[category]
+                    value: Math.floor(convertValueToSelectedCurrency(transactionsByCategoryIncome[category], state.currency))
                 }));
                 const transactionsByCategoryExpensesArray = Object.keys(transactionsByCategoryExpenses).map(category => ({
                     name: category,
-                    value: transactionsByCategoryExpenses[category]
+                    // value: transactionsByCategoryExpenses[category]
+                    value: Math.floor(convertValueToSelectedCurrency(transactionsByCategoryExpenses[category], state.currency))
                 }));
 
                 setDataIncome(transactionsByCategoryIncomeArray)
@@ -135,6 +181,8 @@ export const Statistics = () => {
         );
     };
 
+    const screenWidth = useScreenSize();
+    const turner = screenWidth >= 767.98;
 
     const chartChanger = (e) => {
         const target = e.target;
@@ -155,13 +203,52 @@ export const Statistics = () => {
     return (
 
         <>
+            <BalanceContainer data-testid="balance" className="balance">
+
+                <div className="balance__items">
+                    <div className="balance__item">
+                        <div className="balance__icon">
+                            {state.symbol}
+                        </div>
+                        <div className="balance__content content">
+                            <div className="content__title">Total transactions</div>
+                            <animated.div className="content__balance">
+                                {totalTransactionsCounter.animatedValue}
+                            </animated.div>
+                        </div>
+                    </div>
+                    <div className="balance__item item-balance__green">
+                        <div className="balance__img">
+                            <img src={up} />
+                        </div>
+                        <div className="balance__content content">
+                            <div className="content__title">Earning transactions</div>
+                            <animated.div className="content__balance">
+                                {totalEarningsCounter.animatedValue}
+                            </animated.div>
+                        </div>
+                    </div>
+                    <div className="balance__item item-balance__pink">
+                        <div className="balance__img">
+                            <img src={down} />
+                        </div>
+                        <div className="balance__content content">
+                            <div className="content__title">Spending transactions</div>
+                            <animated.div className="content__balance">
+                                {totalSpendingsCounter.animatedValue}
+                            </animated.div>
+                        </div>
+                    </div>
+                </div>
+            </BalanceContainer >
+
             <h1>Detailed charts about Earnings and Spendings</h1>
             <Charts>
                 <div className='charts__round'>
                     <PieChart className='charts__round' width={300} height={300}>
                         <Pie
                             data={data}
-                            cx="40%"
+                            cx="35%"
                             cy="50%"
                             labelLine={false}
                             label={renderCustomizedLabel}
@@ -174,54 +261,51 @@ export const Statistics = () => {
                             ))}
                         </Pie>
                         <Tooltip />
-                        <Legend iconSize={10} layout="vertical" verticalAlign="middle" wrapperStyle={style} />
+                        <Legend iconSize={10} layout="vertihocal" verticalAlign="middle" wrapperStyle={style} />
                     </PieChart>
                 </div>
                 <div className='caharts__container'>
                     <div className='charts__buttons'>
-                        <Button id='chartEarnings' className='charts__button active' onClick={chartChanger}>Earnings</Button>
-                        <Button id='chartSpendings' className='charts__button' onClick={chartChanger}>Spendings</Button>
+                        <Button id='chartEarnings' className='charts__button chosen active' onClick={chartChanger}>Earnings</Button>
+                        <Button id='chartSpendings' className='charts__button chosen' onClick={chartChanger}>Spendings</Button>
                     </div>
                     <div className='caharts__barcontainer'>
                         {currentChart === 'chartEarnings' ?
                             <div className='charts__income'>
                                 <BarChart
-                                    width={300}
-                                    height={300}
                                     data={dataIncome}
                                     margin={{
                                         top: 5,
                                         right: 30,
-                                        left: 20,
-                                        bottom: 5,
+                                        left: 5,
+                                        bottom: 15,
                                     }}
                                     barSize={20}
+                                    height={turner ? 300 : 260}
+                                    width={turner ? 450 : 300}
                                 >
-                                    <XAxis dataKey="name" scale="point" padding={{ left: 5, right: 5 }} fontSize={12} angle={45} />
+                                    <XAxis dataKey="name" scale="point" padding={{ left: turner ? 5 : 25, right: 5 }} fontSize={turner ? 14 : 12} angle={turner ? 0 : 45} />
                                     <YAxis />
                                     <Tooltip />
                                     <CartesianGrid strokeDasharray="3  3" />
                                     <Bar dataKey="value" fill="lightgreen" background={{ fill: '#eee' }} />
-                                    {/* <Bar dataKey="value" fill="#82ca9d">
-                                        <LabelList dataKey="name" position="top" angle={0} />
-                                    </Bar> */}
                                 </BarChart>
                             </div>
                             :
                             <div className='charts__expenses'>
                                 <BarChart
-                                    width={450}
-                                    height={300}
                                     data={dataExpenses}
                                     margin={{
                                         top: 5,
                                         right: 30,
-                                        left: 20,
-                                        bottom: 5,
+                                        left: 5,
+                                        bottom: 15,
                                     }}
                                     barSize={20}
+                                    height={turner ? 300 : 260}
+                                    width={turner ? 450 : 300}
                                 >
-                                    <XAxis dataKey="name" scale="point" padding={{ left: 5, right: 5 }} fontSize={15} />
+                                    <XAxis dataKey="name" scale="point" padding={{ left: turner ? 5 : 25, right: 5 }} fontSize={turner ? 14 : 12} angle={turner ? 0 : 45} />
                                     <YAxis />
 
                                     <Tooltip />
@@ -234,7 +318,7 @@ export const Statistics = () => {
 
                     </div>
                 </div>
-            </Charts>
+            </Charts >
 
         </>
     )

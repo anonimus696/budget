@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { AppContext } from "../../providers/context";
 import { THEMES } from '../../providers/themes/themeList'
 import { saveToStorage } from "../../utils/sessionStorage";
@@ -35,19 +35,27 @@ export const ThemeSwich = () => {
 export const ThemeSwich = () => {
     const { state, dispatch } = useContext(AppContext);
 
-    const toggleTheme = () => {
-        console.log(state.theme);
-        const themeName = state.themeName === THEMES.LIGHT ? THEMES.DARK : THEMES.LIGHT;
+    console.log(state.themeName);
+    const setTheme = () => {
+        const newTheme = state.themeName === THEMES.LIGHT || state.themeName === THEMES.BASIC ? THEMES.DARK : THEMES.LIGHT;
+
         dispatch({
             type: 'setTheme',
-            themeName
+            themeName: newTheme,
         });
-        saveToStorage('themeName', themeName);
-    }
+        saveToStorage('themeName', newTheme);
+    };
+
 
     return (
-        <IconTheme onClick={toggleTheme}>
-            <img src={state.themeName === THEMES.LIGHT || THEMES.BASIC ? moon : sun} />
+        <IconTheme onClick={setTheme}>
+            {state.themeName === THEMES.LIGHT || state.themeName === THEMES.BASIC ? (
+                <img src={moon} alt="Moon Icon" />
+            ) : (
+                <img src={sun} alt="Sun Icon" />
+            )}
         </IconTheme>
     )
 }
+
+export default ThemeSwich;

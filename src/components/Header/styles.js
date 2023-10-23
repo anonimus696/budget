@@ -98,7 +98,12 @@ align-items: center;
         gap: 40px;
     }
 
+    @media (min-width:767.98px){
+    }
+
     @media (max-width:767.98px){
+    margin-bottom: 15px;
+
         .container{
             width: 100%;
             justify-content: space-between;

@@ -5,7 +5,7 @@ import { BalanceContainer } from './styles.js'
 import { ChangeBalance } from '../ChangeBalance';
 import up from '../../assets/img/up.svg'
 import down from '../../assets/img/down.svg'
-import { СurrencyRate } from "../СurrencyRate";
+
 
 import { getItems } from "../../utils/indexdb";
 import { useScreenSize } from "../../hooks"

@@ -86,7 +86,6 @@ const Home = ({ headerData, setHeaderData }) => {
                 <Balance
                     setFilter={setFilter} //!
                     balance={balance} onChange={onChange} />
-                <hr />
 
                 {transactions.length > 0
                     ?

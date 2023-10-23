@@ -74,9 +74,7 @@ const Header = ({ onChange }) => {
                     <СurrencyRate />
                     <ThemeSwich />
                 </div>
-
             </HeaderContainer>
-            <hr />
         </>
     )
 
