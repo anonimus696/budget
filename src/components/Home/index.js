@@ -100,7 +100,7 @@ const Home = ({ headerData, setHeaderData }) => {
                         filter={filter} setFilter={setFilter}//!
                     />
                     :
-                    <h1>You do not have any transaction yet, please press plus to add a new transaction</h1>
+                    <h2>You do not have any transaction yet, please press plus to add a new transaction</h2>
                 }
 
 

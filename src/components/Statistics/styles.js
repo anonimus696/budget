@@ -27,7 +27,9 @@ Charts.displayName = 'Charts';
 export const ChartsWrapper = styled.div`
 
 h2{
-    /* font-size: 32px; */
+    & span{
+        text-decoration: underline;
+    }
 }
 
 .buttoncontainer{

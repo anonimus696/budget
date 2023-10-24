@@ -1,8 +1,8 @@
 import React, { Suspense, lazy, useEffect, useState } from 'react';
 import {
-    BrowserRouter as Router,
+    BrowserRouter as HashRouter,
     Routes,
-    Route
+    Route,
 } from "react-router-dom";
 
 import { open } from '../../utils/indexdb';
@@ -45,7 +45,7 @@ function App() {
 
 
     return (
-        <Router basename="budget">
+        <HashRouter basename="budget">
             <Wrapper>
                 <Container>
                     <GlobalStyle />
@@ -68,7 +68,7 @@ function App() {
                     </Suspense>
                 </Container>
             </Wrapper>
-        </Router>
+        </HashRouter>
     );
 }
 
