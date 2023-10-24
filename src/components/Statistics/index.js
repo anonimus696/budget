@@ -249,8 +249,8 @@ export const Statistics = () => {
 
             {totalTransactions > 0
                 ?
-                <>
-                    <h2>Detailed charts about Earnings and Spendings</h2>
+                <div className='allcontainer'>
+                    <h2>Сharts</h2>
                     <div className='buttoncontainer'>
                         <div onClick={chartTurner} className='buttoncontainer__chartbutton'>
                             {chart
@@ -357,7 +357,7 @@ export const Statistics = () => {
 
 
                     </Charts >
-                </>
+                </div>
                 :
                 <h2>You do not have any transaction yet, please press plus to add a new transaction <span>here</span></h2>
             }

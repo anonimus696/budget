@@ -55,8 +55,9 @@ Wrapper.displayName = 'FormWrapper';
 
 
 export const Colomn = styled.div`
-display: flex;
-flex-direction: column;
+/* display: flex;
+flex-direction: column; */
+display: grid;
 gap: 10px;
 
 `;
@@ -65,18 +66,27 @@ export const Input = styled.input`
 padding: 0 5px;
 border: 1px solid #000;
 border-radius: 5px;
-/* flex: 1 1 auto; */
-min-width: 280px;
+min-width: 290px;
 height: 40px;
 outline: none;
 transition: all 0.3s ease 0s;
+background-color: #fff;
+
+
+@media (max-width: 767.98px) {
+  /* Стилізуйте select */
+
+  &.input-field {
+  /* width: 100%; */
+  background-color: #fff;
+  }
+
+}
 
 &:focus{
     border: 1px solid rgb(66, 142, 204);
     box-shadow: 1px 1px 0 0  rgb(66, 142, 204);
 }
-
-text-size-adjust: none;
 
 `;
 
@@ -90,6 +100,8 @@ min-width: 80px;
 height: 40px;
 outline: none;
 transition: all 0.3s ease 0s;
+background-color: #fff;
+border: 1px solid #000;
 
 
 
@@ -113,6 +125,7 @@ min-width: 80px;
 height: 40px;
 transition: all 0.3s ease 0s;
 margin-bottom: 15px;
+
 &.charts__button{
     padding: 10px;
 }

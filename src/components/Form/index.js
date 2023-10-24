@@ -162,7 +162,8 @@ const Form = (props) => {
                     />
                     <div hidden id='error'>Шо ти вводиш довбойоб?<br /> тут мають бути цифри</div>
 
-                    <Input data-testid="date"
+                    <Input
+                        className="input-field"
                         value={form.date}
                         onChange={onChange}
                         name="date" type='date'

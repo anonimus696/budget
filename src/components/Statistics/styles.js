@@ -20,6 +20,7 @@ gap: 27px;
     margin-right: 25px;
 }
 
+
 `;
 Charts.displayName = 'Charts';
 
@@ -27,6 +28,7 @@ Charts.displayName = 'Charts';
 export const ChartsWrapper = styled.div`
 
 h2{
+    margin: 10px 0;
     & span{
         text-decoration: underline;
     }
