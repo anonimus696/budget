@@ -75,6 +75,9 @@ transition: all 0.3s ease 0s;
     border: 1px solid rgb(66, 142, 204);
     box-shadow: 1px 1px 0 0  rgb(66, 142, 204);
 }
+
+text-size-adjust: none;
+
 `;
 
 Input.displayName = 'Input';
@@ -88,11 +91,15 @@ height: 40px;
 outline: none;
 transition: all 0.3s ease 0s;
 
+
+
 &:focus{
     border: 1px solid rgb(66, 142, 204);
     box-shadow: 1px 1px 0 0  rgb(66, 142, 204);
 }
 `;
+
+
 
 Input.displayName = 'Comment';
 
