@@ -21,7 +21,7 @@ display: flex;
     align-items: center;
     max-height: 288px;
     gap: 15px;
-    box-shadow: 2px 5px 0px 0px rgba(0,0,0,0.1);
+    box-shadow: rgba(17, 12, 46, 0.15) 0px 48px 100px 0px;
 }
 .item{
         padding: 5px 10px;

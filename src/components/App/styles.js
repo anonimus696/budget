@@ -7,7 +7,7 @@ export const GlobalStyle = createGlobalStyle`
     height: 100%;
     overflow: auto;
     background: ${props => props.theme.background};
-
+    font-family: DM Sans;
   }
   html {
     height: 100%;

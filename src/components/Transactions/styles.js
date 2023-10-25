@@ -14,6 +14,7 @@ padding: 5px 0 10px 0;
 @media (max-width:479.98px){
 gap: 5px;
 padding: 0px 0 7px 0;
+font-size: 14px;
 
 }
 `;
@@ -35,13 +36,16 @@ transition: all 0.3s ease 0s;
 
 @media (max-width:479.98px){
 padding: 5px 7px;
-    
 }
 
-&:hover{
-background-color:  ${({ theme }) => theme.linkColor};
-color: #fff;
-}
+@media (min-width:767.98px){
+    &:hover{
+    background-color:  ${({ theme }) => theme.linkColor};
+    color: #fff;
+    }
+    }
+
+
 
 &.filtered{
     background-color:  ${({ theme }) => theme.linkColor};

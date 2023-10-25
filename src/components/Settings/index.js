@@ -6,6 +6,9 @@ import { saveToStorage } from '../../utils/sessionStorage';
 import { addData } from '../../utils/generate';
 
 
+import { SettingsCont } from './styles.js';
+import { Button } from 'react-scroll';
+
 const Test = memo(({ data }) => {
     console.log('rendering')
 
@@ -48,36 +51,37 @@ const Settings = () => {
     const data = useMemo(() => []);
 
     return (
-        <>
+        <SettingsCont>
             <h1>Налаштування</h1>
             <Test data={data} />
-            <div>
-                <form>
-                    <label>
+            <div className='settings'>
+                <form className='settings__form form'>
+                    <label className='form__label'>
                         Currency:
                         <select
-                            // name="currency"
                             onChange={onChange}
                             name={state.name}
                             value={state.currency}>
-                            <option name="₴" value="UAH">Гривня</option>
-                            <option name="$" value="USD">Dollar</option>
-                            <option name="€" value="EUR">Euro</option>
+                            <option name="₴" value="UAH">UAH</option>
+                            <option name="$" value="USD">USD</option>
+                            <option name="€" value="EUR">EUR</option>
                         </select>
-                        <label>
-                            Language:
-                            <select name="language"
-                                onChange={onChangeLocale}
-                                value={state.locale}>
-                                <option value={LOCALES.UKRAINIAN}>Українська</option>
-                                <option value={LOCALES.ENGLISH}>English</option>
-                            </select>
-                        </label>
+                    </label>
+                    <hr />
+                    <label className='form__label'>
+                        Language:
+                        <select name="language"
+                            onChange={onChangeLocale}
+                            value={state.locale}>
+                            <option value={LOCALES.UKRAINIAN}>Українська</option>
+                            <option value={LOCALES.ENGLISH}>English</option>
+                        </select>
                     </label>
                 </form>
             </div>
-            <div>
-                <button onClick={handleStatusChange}>Розширені налаштування</button>
+            <hr />
+            <div className='settings__advanced'>
+                <Button onClick={handleStatusChange}>Розширені налаштування</Button>
                 {status ? (
                     <div>
                         <h2>Розширені налаштування</h2>
@@ -87,7 +91,7 @@ const Settings = () => {
                 ) : null}
 
             </div>
-        </>
+        </SettingsCont>
     );
 };
 

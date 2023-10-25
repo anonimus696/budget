@@ -12,27 +12,54 @@ import { useLocation } from 'react-router-dom';
 const Header = ({ onChange }) => {
 
     const location = useLocation();
-    const isBudgetPage = location.pathname.endsWith('/');
+    console.log();
 
     const screenWidth = useScreenSize();
 
-    // && isBudgetPage
-
     const renderChangeBalance = (screenWidth <= 767.98);
+
+
+    const delClasname = (links, target) => {
+        for (const li of links) {
+            if (li !== target) {
+                li.classList.remove("marked");
+            }
+        }
+    }
+    const handleLinkClick = (e) => {
+        // Додаємо клас "active" до кнопки
+        const target = e.target;
+
+        target.classList.add("marked");
+        // Забираємо клас "active" з іншої кнопки
+        const otherLinks = document.querySelectorAll(".marked");
+        delClasname(otherLinks, target)
+    }
+    const mainClick = () => {
+        const mainLink = document.querySelector(".main");
+        const otherLinks = document.querySelectorAll(".marked");
+
+        if (!mainLink.classList.contains("marked")) {
+            mainLink.classList.add("marked");
+        }
+        delClasname(otherLinks, mainLink)
+    }
+
+
     return (
         <>
             <HeaderContainer>
                 <Nav>
                     <ul>
-                        <li >
-                            <Link className='linkContainer' to="/">
+                        <li onClick={handleLinkClick}>
+                            <Link className='linkContainer main marked' to="/">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
                                     <path d="M23.6698 9.56005L21.6698 7.74005L13.9998 0.780046C13.4498 0.288091 12.7377 0.0161133 11.9998 0.0161133C11.2618 0.0161133 10.5498 0.288091 9.99977 0.780046L2.34977 7.78005L0.349774 9.60005C0.2151 9.7367 0.122579 9.9092 0.0832487 10.097C0.0439184 10.2848 0.0594395 10.4799 0.12796 10.6591C0.196481 10.8383 0.315109 10.994 0.469691 11.1077C0.624274 11.2213 0.808286 11.2881 0.999775 11.3C1.25306 11.2886 1.49255 11.1814 1.66977 11L1.99977 10.7V21C1.99977 21.7957 2.31585 22.5588 2.87845 23.1214C3.44106 23.684 4.20412 24 4.99977 24H18.9998C19.7954 24 20.5585 23.684 21.1211 23.1214C21.6837 22.5588 21.9998 21.7957 21.9998 21V10.74L22.3298 11.04C22.5132 11.2067 22.7519 11.2994 22.9998 11.3C23.2014 11.2995 23.3981 11.2381 23.5642 11.1237C23.7303 11.0094 23.8579 10.8475 23.9304 10.6594C24.0028 10.4712 24.0167 10.2656 23.9702 10.0694C23.9237 9.8732 23.819 9.69566 23.6698 9.56005Z" fill="#C6C6C6" />
                                 </svg>
                                 <FormattedMessage id="menu.home" />
                             </Link>
                         </li>
-                        <li>
+                        <li onClick={handleLinkClick}>
                             <Link className='linkContainer' to="/statistics">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
                                     <path d="M24 11H13V0C15.8412 0.228368 18.5083 1.46063 20.5239 3.47614C22.5394 5.49166 23.7716 8.1588 24 11Z" fill="#C6C6C6" />
@@ -41,10 +68,13 @@ const Header = ({ onChange }) => {
                                 <FormattedMessage id="menu.statistic" />
                             </Link>
                         </li>
-                        {renderChangeBalance ? <ChangeBalance onChange={onChange} />
+                        {renderChangeBalance ?
+                            <li onClick={mainClick}>
+                                <ChangeBalance onChange={onChange} />
+                            </li>
                             : null
                         }
-                        <li>
+                        <li onClick={handleLinkClick}>
                             <Link className='linkContainer' to="/settings">
                                 <svg fill="#000000" height="24px" width="24px" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink"
                                     viewBox="0 0 489.802 489.802" space="preserve">
@@ -53,7 +83,7 @@ const Header = ({ onChange }) => {
                                 <FormattedMessage id="menu.settings" />
                             </Link>
                         </li>
-                        <li>
+                        <li onClick={handleLinkClick}>
                             <Link className='linkContainer' to="/about">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="24" viewBox="0 0 20 24" fill="none">
                                     <path d="M10 12.0701C13.3137 12.0701 16 9.38378 16 6.07007C16 2.75636 13.3137 0.0700684 10 0.0700684C6.68629 0.0700684 4 2.75636 4 6.07007C4 9.38378 6.68629 12.0701 10 12.0701Z" fill="#C6C6C6" />

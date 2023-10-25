@@ -38,9 +38,13 @@ h2{
 
     &__chartbutton{
     background-color: ${({ theme }) => theme.linkColor};
+    border: 1px solid ${({ theme }) => theme.linkColor};
     display: inline-block;
     padding: 5px 10px;
-
+    cursor: pointer;
+    transition: all 0.3s ease 0s;
+}
+}
 .svg-icon {
   width: 26px;
   height: 26px;
@@ -56,7 +60,17 @@ h2{
   stroke: #4691f6;
   stroke-width: 1;
 }
-}
+@media (min-width: 767.98px) {
+  .buttoncontainer{
+    &__chartbutton:hover{
+      background-color: #fff;
+
+      .svg-icon path {
+      fill: ${({ theme }) => theme.linkColor};
+    }
+    }
+
+  }
 }
 
 `;

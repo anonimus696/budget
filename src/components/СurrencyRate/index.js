@@ -6,14 +6,13 @@ import styled from "styled-components";
 const CurrencyContainer = styled.div`
 .balance__item{
     flex: 1 1 auto;
-    background-color: #fff;
+    /* background-color: #fff; */
     padding: 10px 15px;
-    border-radius: 20px;
+    border-radius: 10px;
     display: flex;
     align-items: center;
     max-height: 288px;
     gap: 15px;
-    box-shadow: 2px 5px 0px 0px rgba(0,0,0,0.1);
 }
 
 .item{
@@ -57,8 +56,7 @@ export const СurrencyRate = () => {
                         <div className="content__title">USD:</div>
                         <div className="content__balance"><span>$</span> {(1 / conversionRates.USD).toFixed(2)}</div>
                     </div>
-                </div>
-                <div className="balance__item item">
+                    <div>|</div>
                     <div className="item__content content">
                         <div className="content__title">EURO:</div>
                         <div className="content__balance"><span>€</span> {(1 / conversionRates.EUR).toFixed(2)}</div>

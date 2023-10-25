@@ -6,13 +6,15 @@ border-radius: 5px;
 padding: 5px;
 margin-bottom: 5px;
 max-width: 500px;
+
+
 .formitems{
     display: flex;
     gap: 10px;
     justify-content: space-between;
     margin-bottom: 15px;
-    flex-grow: 0;
 }
+
 .formitems__content{
     display: grid;
     gap: 5px;
@@ -25,7 +27,7 @@ max-width: 500px;
     padding: 10px 10px;
     border-radius: 20px;
     display: flex;
-    gap: 15px;
+    gap: 10px;
     align-items: center;
     justify-content: center;
 }
@@ -75,13 +77,9 @@ background-color: #fff;
 
 
 @media (max-width: 767.98px) {
-  /* Стилізуйте select */
-
   &.input-field {
-  /* width: 100%; */
   background-color: #fff;
   }
-
 }
 
 &:focus{
@@ -139,16 +137,22 @@ margin-bottom: 15px;
     background-color:  ${({ theme }) => theme.linkColor};
     color: #fff;
     box-shadow: 2px 2px 2px 2px  ${({ theme }) => theme.linkColor};
-    &:hover{
-    background-color:  ${({ theme }) => theme.linkColor};
-    color: #fff;
-    }
 }
-&:hover{
+
+
+@media (min-width:767.98px){
+    &.active{
+        &:hover{
+        background-color:  ${({ theme }) => theme.linkColor};
+        color: #fff;
+    }
+    }
+    &:hover{
     color: ${({ theme }) => theme.linkColor};
     background-color: transparent;
     box-shadow: 2px 2px 2px 2px  ${({ theme }) => theme.linkColor};
     cursor: pointer;
+}
 }
 `;
 

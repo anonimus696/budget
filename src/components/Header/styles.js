@@ -23,9 +23,13 @@ export const Nav = styled.nav`
         text-decoration: none;
         transition: all 0.3s ease 0s;
     }
-    li a:hover{
+
+
+    @media (min-width: 767.98px) {
+        li a:hover{
         color: ${({ theme }) => theme.linkColor};
     }
+  }
 
     .linkContainer{
         display: flex;
@@ -43,7 +47,6 @@ export const Nav = styled.nav`
         left: 0px;
         z-index: 2;
         padding: 10px 0 10px 0;
-        /* padding: 0; */
         background-color: #fff;
         width: 100%;
 
@@ -63,6 +66,9 @@ export const Nav = styled.nav`
         font-weight: 600;
         line-height: 20px; 
         }
+        & .marked{
+            color: #7551FF;
+        }
     }
 
         .linkContainer{
@@ -70,13 +76,17 @@ export const Nav = styled.nav`
             display: block;
             & path{
                 fill: ${({ theme }) => theme.color};
-                &:hover{
-                    fill: ${({ theme }) => theme.linkColor};
-                }
             }
         }
     }
 
+    .marked.linkContainer {
+        & svg{
+            & path{
+                fill: #7551FF;
+            }
+        }
+    }
 }
 
 `;
@@ -98,8 +108,7 @@ align-items: center;
         gap: 40px;
     }
 
-    @media (min-width:767.98px){
-    }
+
 
     @media (max-width:767.98px){
     margin-bottom: 15px;

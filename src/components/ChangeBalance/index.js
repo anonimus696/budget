@@ -15,7 +15,7 @@ max-width: 185px;
 height: 40px;
 padding: 5px 15px;
 font-size: 36px;
-font-weight: 800;
+font-weight: 500;
 background-color: ${({ theme }) => theme.linkColor};
 border: 1px solid ${({ theme }) => theme.linkColor};
 color: #fff;
@@ -27,11 +27,7 @@ justify-content: center;
 opacity: 1;
 align-self: center;
 /* z-index: 2; */
-&:hover{
-    background: #fff;
-    color: ${({ theme }) => theme.linkColor};
-    transition: all 0.3s ease 0s;
-}
+
 /*
 @media (max-width:767.98px){
 position: fixed; 
@@ -40,6 +36,15 @@ bottom: 5%;
 z-index: 2;
 }
 */
+@media (min-width:767.98px){
+    &:hover{
+    background: #fff;
+    color: ${({ theme }) => theme.linkColor};
+    transition: all 0.3s ease 0s;
+}
+}
+
+
 @media (max-width:767.98px){
 margin-top: -35px
 }
