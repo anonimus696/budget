@@ -11,6 +11,7 @@ max-width: 500px;
     gap: 10px;
     justify-content: space-between;
     margin-bottom: 15px;
+    flex-grow: 0;
 }
 .formitems__content{
     display: grid;

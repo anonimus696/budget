@@ -77,7 +77,7 @@ const Transactions = ({ data, loadMoreRows, onDelete, onStarClick, isNextPageLoa
 
     return (
         // <div>Nothing</div>
-        <div style={{ height: 'calc(100vh - 247px)' }}>
+        <div style={{ height: 'calc(100vh - 147px)' }}>
 
             <Filter>
                 <FilterButton onClick={(e) => filterSettings(e, 'isStared')}>Favorites

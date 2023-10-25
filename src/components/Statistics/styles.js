@@ -37,7 +37,7 @@ h2{
 .buttoncontainer{
 
     &__chartbutton{
-    background-color: blue;
+    background-color: ${({ theme }) => theme.linkColor};
     display: inline-block;
     padding: 5px 10px;
 
