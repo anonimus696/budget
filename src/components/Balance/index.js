@@ -3,6 +3,8 @@ import React, { useContext, useState, useEffect, useMemo } from "react";
 import { AppContext } from "../../providers/context";
 import { BalanceContainer } from './styles.js'
 import { ChangeBalance } from '../ChangeBalance';
+import { FormattedMessage } from "react-intl";
+
 import up from '../../assets/img/up.svg'
 import down from '../../assets/img/down.svg'
 
@@ -83,7 +85,7 @@ const Balance = ({ balance, children, onChange, setFilter }) => {
                         {state.symbol}
                     </div>
                     <div className="balance__content content">
-                        <div className="content__title">Actual balance</div>
+                        <div className="content__title"><FormattedMessage id="balance.actual" /></div>
                         <div className="content__balance">{formattedBalance}</div>
                     </div>
                     {renderChangeBalance && <ChangeBalance onChange={onChange} />}
@@ -93,7 +95,7 @@ const Balance = ({ balance, children, onChange, setFilter }) => {
                         <img src={up} />
                     </div>
                     <div className="balance__content content">
-                        <div className="content__title">Earnings</div>
+                        <div className="content__title"><FormattedMessage id="balance.earnings" /></div>
                         <div className="content__balance">{state.symbol}{newtotalEarnings}</div>
                     </div>
                 </div>
@@ -102,7 +104,7 @@ const Balance = ({ balance, children, onChange, setFilter }) => {
                         <img src={down} />
                     </div>
                     <div className="balance__content content">
-                        <div className="content__title">Spendings</div>
+                        <div className="content__title"><FormattedMessage id="balance.spendings" /></div>
                         <div className="content__balance">-{state.symbol}{newtotalSpendings}</div>
                     </div>
                 </div>

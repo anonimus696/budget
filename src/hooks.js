@@ -1,8 +1,7 @@
 import { useState, useEffect, useCallback } from "react";
 import { STATUSES } from './constants';
 import { getData, addItem, deleteItem, updateItem } from './utils/indexdb'
-import Balance from "./components/Balance";
-import { conversionRates } from "./constants";
+import { RATES } from "./constants";
 
 export const useBooleanToggle = (initialStatus = false) => {
     const [status, setStatus] = useState(initialStatus);
@@ -130,7 +129,7 @@ export const useData = () => {
 }
 
 export const convertValueToSelectedCurrency = (value, currency) => {
-    const convertedValue = value * conversionRates[currency];
+    const convertedValue = value * RATES[currency];
 
     return convertedValue.toFixed(2);
 };

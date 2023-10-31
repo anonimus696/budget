@@ -1,5 +1,5 @@
 
-import { conversionRates } from "../../constants";
+import { RATES } from "../../constants";
 import styled from "styled-components";
 
 
@@ -19,6 +19,8 @@ const CurrencyContainer = styled.div`
         padding: 5px 10px;
         display: flex;
         gap: 10px;
+        color: ${({ theme }) => theme.color};
+
         &__content{
             display: flex;
             align-items: center;
@@ -54,12 +56,12 @@ export const СurrencyRate = () => {
                 <div className="balance__item item">
                     <div className="item__content content">
                         <div className="content__title">USD:</div>
-                        <div className="content__balance"><span>$</span> {(1 / conversionRates.USD).toFixed(2)}</div>
+                        <div className="content__balance"><span>$</span> {(1 / RATES.USD).toFixed(2)}</div>
                     </div>
                     <div>|</div>
                     <div className="item__content content">
                         <div className="content__title">EURO:</div>
-                        <div className="content__balance"><span>€</span> {(1 / conversionRates.EUR).toFixed(2)}</div>
+                        <div className="content__balance"><span>€</span> {(1 / RATES.EUR).toFixed(2)}</div>
                     </div>
                 </div>
             </div>

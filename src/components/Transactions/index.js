@@ -2,10 +2,11 @@ import { useState, useEffect } from "react";
 import { FixedSizeList as List } from "react-window";
 import AutoSizer from "react-virtualized-auto-sizer";
 import InfiniteLoader from "react-window-infinite-loader";
+import { FormattedMessage } from "react-intl";
 
 import Transaction from '../Transaction';
 
-import { Filter, FilterButton } from "./styles";
+import { Filter, FilterButton, TransactionsWraper } from "./styles";
 import { CloseContainer, LeftRight, RightLeft } from '../Transaction/styles'
 
 
@@ -76,17 +77,17 @@ const Transactions = ({ data, loadMoreRows, onDelete, onStarClick, isNextPageLoa
     }
 
     return (
-        // <div>Nothing</div>
-        <div style={{ height: 'calc(100vh - 147px)' }}>
+
+        <TransactionsWraper style={{ height: 'calc(100vh - 147px)' }}>
 
             <Filter>
-                <FilterButton onClick={(e) => filterSettings(e, 'isStared')}>Favorites
+                <FilterButton onClick={(e) => filterSettings(e, 'isStared')}><FormattedMessage id="balance.favorites" />
                     {filter === 'isStared' ? <CloseButton /> : null}
                 </FilterButton>
-                <FilterButton onClick={(e) => filterSettings(e, 'Spendings')}>Spendings
+                <FilterButton onClick={(e) => filterSettings(e, 'Spendings')}><FormattedMessage id="balance.spendings" />
                     {filter === 'Spendings' ? <CloseButton /> : null}
                 </FilterButton>
-                <FilterButton onClick={(e) => filterSettings(e, 'Earnings')}>Earnings
+                <FilterButton onClick={(e) => filterSettings(e, 'Earnings')}><FormattedMessage id="balance.earnings" />
                     {filter === 'Earnings' ? <CloseButton /> : null}
                 </FilterButton>
             </Filter>
@@ -100,7 +101,7 @@ const Transactions = ({ data, loadMoreRows, onDelete, onStarClick, isNextPageLoa
                     >
                         {({ onItemsRendered, ref }) => (
                             <List
-                                className="List"
+                                className="list"
                                 height={height}
                                 itemCount={itemCount}
                                 itemSize={80}
@@ -108,6 +109,7 @@ const Transactions = ({ data, loadMoreRows, onDelete, onStarClick, isNextPageLoa
                                 itemData={filteredData}
                                 ref={ref}
                                 onItemsRendered={onItemsRendered}
+                                style={{ overflowX: 'hidden' }}
                             >
                                 {({ index, style, data }) => {
                                     if (!data[index]) {
@@ -128,7 +130,7 @@ const Transactions = ({ data, loadMoreRows, onDelete, onStarClick, isNextPageLoa
                     </InfiniteLoader>
                 )}
             </AutoSizer>
-        </div>
+        </TransactionsWraper >
 
     )
 }

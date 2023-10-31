@@ -9,19 +9,20 @@ display: flex;
     display: flex;
     justify-content: center;
     gap: 20px;
-    padding: 0 0 10px 0;
+    padding: 0 0 25px 0;
 }
 
 .balance__item{
     flex: 1 1 auto;
-    background-color: #fff;
+    background-color: ${({ theme }) => theme.secondary};
+    color: ${({ theme }) => theme.color};
     padding: 10px 15px;
     border-radius: 20px;
     display: flex;
     align-items: center;
     max-height: 288px;
     gap: 15px;
-    box-shadow: rgba(17, 12, 46, 0.15) 0px 48px 100px 0px;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 }
 .item{
         padding: 5px 10px;

@@ -9,6 +9,11 @@ const reducer = (state, action) => {
             return {
                 ...state,
                 currency: action.currency,
+            }
+        };
+        case 'changeSymbol': {
+            return {
+                ...state,
                 symbol: action.symbol
             }
         };

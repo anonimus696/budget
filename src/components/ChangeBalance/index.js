@@ -14,11 +14,12 @@ bottom: 50px; */
 max-width: 185px;
 height: 40px;
 padding: 5px 15px;
-font-size: 36px;
+font-size: 32px;
 font-weight: 500;
 background-color: ${({ theme }) => theme.linkColor};
+color: ${({ theme }) => theme.hover};
 border: 1px solid ${({ theme }) => theme.linkColor};
-color: #fff;
+line-height: 1.5;
 border-radius: 25px;
 cursor: pointer;
 display: flex;
@@ -26,7 +27,6 @@ align-items: center;
 justify-content: center;
 opacity: 1;
 align-self: center;
-/* z-index: 2; */
 
 /*
 @media (max-width:767.98px){
@@ -38,7 +38,7 @@ z-index: 2;
 */
 @media (min-width:767.98px){
     &:hover{
-    background: #fff;
+    background: ${({ theme }) => theme.hover};
     color: ${({ theme }) => theme.linkColor};
     transition: all 0.3s ease 0s;
 }

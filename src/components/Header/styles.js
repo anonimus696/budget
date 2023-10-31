@@ -27,7 +27,7 @@ export const Nav = styled.nav`
 
     @media (min-width: 767.98px) {
         li a:hover{
-        color: ${({ theme }) => theme.linkColor};
+        color: #4318FF;
     }
   }
 
@@ -47,14 +47,14 @@ export const Nav = styled.nav`
         left: 0px;
         z-index: 2;
         padding: 10px 0 10px 0;
-        background-color: #fff;
+        background-color: ${({ theme }) => theme.secondary};
         width: 100%;
 
 
         ul{
-        justify-content: space-around;
+        justify-content: space-between;
         align-items: center;
-        padding: 0;
+        padding: 0 10px;
         margin: 0;
         gap: 5px;
         }

@@ -1,8 +1,8 @@
 import React, { useEffect, useState, useContext } from 'react';
 import { getItems } from "../../utils/indexdb";
+import { FormattedMessage } from 'react-intl';
 
-import { PieChart, Pie, Tooltip, Cell, Legend, Line, YAxis, XAxis, CartesianGrid, Bar, BarChart, LabelList } from "recharts";
-
+import { PieChart, Pie, Tooltip, Cell, Legend, Line, YAxis, XAxis, CartesianGrid, Bar, BarChart } from "recharts";
 
 import { Charts, ChartsWrapper } from './styles'
 
@@ -16,11 +16,13 @@ import down from '../../assets/img/down.svg'
 
 import { useSpring, animated } from 'react-spring';//!
 import { useScreenSize } from '../../hooks';
-// import { Link } from 'react-scroll';
+import { useIntl } from 'react-intl';
 
-
+import { useTheme } from 'styled-components';
 
 export const Statistics = () => {
+    const theme = useTheme();
+
     const { state } = useContext(AppContext);
     const [data, setData] = useState([]); // Додавання стану для даних
 
@@ -34,6 +36,11 @@ export const Statistics = () => {
     const [totalSpendings, setTotalSpendings] = useState(0);
 
     const [chart, setChart] = useState(true)
+
+    const intl = useIntl();
+    const T = (key) => {
+        return intl.formatMessage({ id: [key] });
+    };
 
     //!
     const [isAnimating, setIsAnimating] = useState(false);
@@ -67,8 +74,12 @@ export const Statistics = () => {
 
         const setOperations = async () => {
             try {
-                const incomeCategories = ['Зарплатня', 'Колядки', 'Дав Бог', 'Зайшла ставка', 'Інше'];//!
-                const expenseCategories = ['Продукти', 'Одяг', 'Комуналка', 'Інше'];//!
+                // const incomeCategories = ['Зарплатня', 'Колядки', 'Дав Бог', 'Зайшла ставка', 'Інше'];//!
+                // const expenseCategories = ['Продукти', 'Одяг', 'Комуналка', 'Інше'];//!
+
+                const incomeCategories = T('categories.incomeCategories').split(',');
+                const expenseCategories = T('categories.expenseCategories').split(',');
+
 
                 const allTransactions = await getItems();
 
@@ -82,6 +93,7 @@ export const Statistics = () => {
                 setTotalTransactions(total);
                 setTotalEarnings(earningsCount);
                 setTotalSpendings(spendingsCount);
+
                 //!
 
                 // Спочатку створіть об'єкт для кожної категорії зі значенням 0
@@ -95,31 +107,27 @@ export const Statistics = () => {
 
                 // Перебирайте всі транзакції і додавайте значення до відповідної категорії
                 allTransactions.forEach(transaction => {
+
                     // Спочатку перевіряємо, чи транзакція належить до доходів
-                    if (incomeCategories.includes(transaction.comment)) {
-                        transactionsByCategoryIncome[transaction.comment] += transaction.value;
+                    if (transaction.placeholder === "Earnings") {
+                        if (transaction.commentIndex === -1 || transaction.commentIndex === 4) {
+                            transactionsByCategoryIncome[T('categories.other')] += transaction.value;
+                        } else {
+                            transactionsByCategoryIncome[incomeCategories[transaction.commentIndex]] += transaction.value;
+                        }
                     }
                     // Потім перевіряємо, чи транзакція належить до витрат
-                    else if (expenseCategories.includes(transaction.comment)) {
-                        transactionsByCategoryExpenses[transaction.comment] -= transaction.value;
-                    }
-                    // Якщо транзакція не відноситься ні до доходів, ні до витрат, додаємо її до категорії "Інше" для відповідної категорії (доходи або витрати)
-                    else {
-                        if (transaction.placeholder === "Spendings") {
-                            // Для витрат
-                            if (!transactionsByCategoryExpenses["Інше"]) {
-                                transactionsByCategoryExpenses["Інше"] = 0;
-                            }
-                            transactionsByCategoryExpenses["Інше"] -= transaction.value;
-                        } else if (transaction.placeholder === "Earnings") {
-                            // Для доходів
-                            if (!transactionsByCategoryIncome["Інше"]) {
-                                transactionsByCategoryIncome["Інше"] = 0;
-                            }
-                            transactionsByCategoryIncome["Інше"] += transaction.value;
+                    else if (transaction.placeholder === "Spendings") {
+                        if (transaction.commentIndex === -1 || transaction.commentIndex === 3) {
+                            transactionsByCategoryExpenses[T('categories.other')] -= transaction.value;
+                        } else {
+                            transactionsByCategoryExpenses[expenseCategories[transaction.commentIndex]] -= transaction.value;
                         }
                     }
                 });
+                //!
+
+
 
                 const transactionsByCategoryIncomeArray = Object.keys(transactionsByCategoryIncome).map(category => ({
                     name: category,
@@ -152,8 +160,9 @@ export const Statistics = () => {
 
                 // Оновлення стану даних після отримання результатів
                 setData([
-                    { name: 'Earnings', value: Math.floor(convertedEarnings) },
-                    { name: 'Spendings', value: Math.floor(convertedSpendings) }
+                    // { name: 'Earnings', value: Math.floor(convertedEarnings) },
+                    { name: T('balance.earnings'), value: Math.floor(convertedEarnings) },
+                    { name: T('balance.spendings'), value: Math.floor(convertedSpendings) }
                 ]);
             } catch (error) {
                 console.error("Помилка при отриманні транзакцій:", error);
@@ -216,7 +225,7 @@ export const Statistics = () => {
                             {state.symbol}
                         </div>
                         <div className="balance__content content">
-                            <div className="content__title">Total transactions</div>
+                            <div className="content__title"> <FormattedMessage id="statistic.total" /></div>
                             <animated.div className="content__balance">
                                 {totalTransactionsCounter.animatedValue}
                             </animated.div>
@@ -227,7 +236,7 @@ export const Statistics = () => {
                             <img src={up} />
                         </div>
                         <div className="balance__content content">
-                            <div className="content__title">Earning transactions</div>
+                            <div className="content__title"><FormattedMessage id="statistic.earnings" /></div>
                             <animated.div className="content__balance">
                                 {totalEarningsCounter.animatedValue}
                             </animated.div>
@@ -238,7 +247,7 @@ export const Statistics = () => {
                             <img src={down} />
                         </div>
                         <div className="balance__content content">
-                            <div className="content__title">Spending transactions</div>
+                            <div className="content__title"><FormattedMessage id="statistic.spendings" /></div>
                             <animated.div className="content__balance">
                                 {totalSpendingsCounter.animatedValue}
                             </animated.div>
@@ -250,7 +259,7 @@ export const Statistics = () => {
             {totalTransactions > 0
                 ?
                 <div className='allcontainer'>
-                    <h2>Сharts</h2>
+                    <h2><FormattedMessage id="statistic.charts" /></h2>
                     <div className='buttoncontainer'>
                         <div onClick={chartTurner} className='buttoncontainer__chartbutton'>
                             {chart
@@ -269,7 +278,7 @@ export const Statistics = () => {
                     <Charts>
                         {chart
                             ?
-                            <div className='charts__round'>
+                            <div className='chart__round'>
                                 <PieChart className='charts__round' width={turner ? 600 : 300} height={turner ? 400 : 300}>
                                     <Pie
                                         data={data}
@@ -301,8 +310,8 @@ export const Statistics = () => {
                             :
                             <div className='caharts__container'>
                                 <div className='charts__buttons'>
-                                    <Button id='chartEarnings' className='charts__button chosen active' onClick={chartChanger}>Earnings</Button>
-                                    <Button id='chartSpendings' className='charts__button chosen' onClick={chartChanger}>Spendings</Button>
+                                    <Button id='chartEarnings' className='charts__button chosen active' onClick={chartChanger}><FormattedMessage id="balance.earnings" /></Button>
+                                    <Button id='chartSpendings' className='charts__button chosen' onClick={chartChanger}><FormattedMessage id="balance.spendings" /></Button>
                                 </div>
                                 <div id='scrollToBottom' className='caharts__barcontainer'>
                                     {currentChart === 'chartEarnings' ?
@@ -312,15 +321,15 @@ export const Statistics = () => {
                                                 margin={{
                                                     top: 5,
                                                     right: 30,
-                                                    left: 0,
+                                                    left: 20,
                                                     bottom: 15,
                                                 }}
                                                 barSize={turner ? 20 : 15}
                                                 height={turner ? 300 : 260}
                                                 width={turner ? 450 : 300}
                                             >
-                                                <XAxis dataKey="name" scale="point" padding={{ left: turner ? 5 : 25, right: 5 }} fontSize={turner ? 14 : 12} angle={turner ? 0 : 45} />
-                                                <YAxis fontSize={turner ? 16 : 12} />
+                                                <XAxis dataKey="name" scale="point" padding={{ left: turner ? 5 : 25, right: 5 }} style={{ fill: theme.color }} fontSize={turner ? 14 : 12} angle={turner ? 0 : 45} />
+                                                <YAxis style={{ fill: theme.color }} fontSize={turner ? 12 : 12} />
                                                 <Tooltip />
                                                 <CartesianGrid strokeDasharray="3  3" />
                                                 <Bar dataKey="value" fill="lightgreen" background={{ fill: '#eee' }} />
@@ -333,15 +342,15 @@ export const Statistics = () => {
                                                 margin={{
                                                     top: 5,
                                                     right: 30,
-                                                    left: 0,
+                                                    left: 20,
                                                     bottom: 15,
                                                 }}
                                                 barSize={20}
                                                 height={turner ? 300 : 260}
                                                 width={turner ? 450 : 300}
                                             >
-                                                <XAxis dataKey="name" scale="point" padding={{ left: turner ? 5 : 25, right: 5 }} fontSize={turner ? 14 : 12} angle={turner ? 0 : 45} />
-                                                <YAxis fontSize={turner ? 16 : 12} />
+                                                <XAxis dataKey="name" scale="point" padding={{ left: turner ? 5 : 25, right: 5 }} style={{ fill: theme.color }} fontSize={turner ? 14 : 12} angle={turner ? 0 : 45} />
+                                                <YAxis style={{ fill: theme.color }} fontSize={turner ? 12 : 12} />
 
                                                 <Tooltip />
                                                 <CartesianGrid strokeDasharray="3 3" />
@@ -359,12 +368,56 @@ export const Statistics = () => {
                     </Charts >
                 </div>
                 :
-                <h2>You do not have any transaction yet, please press plus to add a new transaction <span>here</span></h2>
+                <h2><FormattedMessage id="zero" /> <span><FormattedMessage id="here" /></span></h2>
             }
 
-
         </ChartsWrapper>
+
+
+
     )
 }
 
 export default Statistics;
+
+
+/*
+            <BalanceContainer data-testid="balance" className="balance">
+
+                <div className="balance__items">
+                    <div className="balance__item">
+                        <div className="balance__icon">
+                            {state.symbol}
+                        </div>
+                        <div className="balance__content content">
+                            <div className="content__title"> <FormattedMessage id="statistic.total" /></div>
+                            <animated.div className="content__balance">
+                                {totalTransactionsCounter.animatedValue}
+                            </animated.div>
+                        </div>
+                    </div>
+                    <div className="balance__item item-balance__green">
+                        <div className="balance__img">
+                            <img src={up} />
+                        </div>
+                        <div className="balance__content content">
+                            <div className="content__title"><FormattedMessage id="statistic.earnings" /></div>
+                            <animated.div className="content__balance">
+                                {totalEarningsCounter.animatedValue}
+                            </animated.div>
+                        </div>
+                    </div>
+                    <div className="balance__item item-balance__pink">
+                        <div className="balance__img">
+                            <img src={down} />
+                        </div>
+                        <div className="balance__content content">
+                            <div className="content__title"><FormattedMessage id="statistic.spendings" /></div>
+                            <animated.div className="content__balance">
+                                {totalSpendingsCounter.animatedValue}
+                            </animated.div>
+                        </div>
+                    </div>
+                </div>
+            </BalanceContainer >
+*/

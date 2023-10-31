@@ -67,8 +67,8 @@ export const CloseContainer = styled.div`
   padding: 0;
   background: #fff;
   border-radius: 50%;
-  width: 20px;
-  height: 20px;
+  width: 16px;
+  height: 16px;
   display: flex;
   flex-flow: column nowrap;
   justify-content: center;
@@ -95,14 +95,14 @@ export const LeftRight = styled.div`
   border: 0;
   background: none;
   position: relative;
-  width: 10px;
-  height: 10px;
+  width: 8px;
+  height: 8px;
 
   &:before,
   &:after {
     content: '';
     position: absolute;
-    top: 9px;
+    top: 0.6em;
     left: 0;
     right: 0;
     height: 2px;

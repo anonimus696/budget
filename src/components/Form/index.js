@@ -3,12 +3,10 @@ import { useState, useContext } from 'react';
 
 import { AppContext } from '../../providers/context'
 
-import { conversionRates } from '../../constants';
-
-
+import { RATES } from '../../constants';
+import { useIntl } from 'react-intl';
 
 import PropTypes from 'prop-types'
-// import { Wrapper } from '@storybook/blocks';
 import { Wrapper, Colomn, Input, Comment, Button } from './styles.js'
 import up from '../../assets/img/up.svg'
 import down from '../../assets/img/down.svg'
@@ -16,26 +14,37 @@ import down from '../../assets/img/down.svg'
 
 
 const Form = (props) => {
+
+    const intl = useIntl();
+    const T = (key) => {
+        return intl.formatMessage({ id: [key] });
+    };
+
     const [form, setForm] = useState({
         value: '',
         date: new Date().toISOString().substring(0, 10),
-        comment: 'Transaction',
-        placeholder: 'Earnings'
+        comment: T('statistic.transaction'),
+        placeholder: 'Earnings',
+        commentIndex: -1,//!
     })
 
     const { state } = useContext(AppContext);
 
     const [category, setCategory] = useState('');//!
 
-    const incomeCategories = ['Зарплатня', 'Колядки', 'Дав Бог', 'Зайшла ставка', 'Інше'];
-    const expenseCategories = ['Продукти', 'Одяг', 'Комуналка', 'Інше'];
+    // const incomeCategories = ['Зарплатня', 'Колядки', 'Дав Бог', 'Зайшла ставка', 'Інше'];
+    // const expenseCategories = ['Продукти', 'Одяг', 'Комуналка', 'Інше'];
+    const incomeCategories = T('categories.incomeCategories').split(',');
+    const expenseCategories = T('categories.expenseCategories').split(',');
+    console.log("LOCALE", expenseCategories);
+
 
     const onSubmit = (e) => {
         e.preventDefault();
 
         const numericValue = parseFloat(form.value); // Парсимо рядок у число
 
-        const convertedValue = state.currency !== 'UAH' ? numericValue / conversionRates[state.currency] : numericValue;
+        const convertedValue = state.currency !== 'UAH' ? numericValue / RATES[state.currency] : numericValue;
 
         const value = form.placeholder === 'Spendings' ? -convertedValue : convertedValue;
 
@@ -46,7 +55,6 @@ const Form = (props) => {
             ...form,
             value: '',
             comment: ''
-
         });
 
         props.onCloseFormModal();
@@ -73,7 +81,7 @@ const Form = (props) => {
         } else {
             setForm({
                 ...form,
-                [name]: value
+                [name]: value,
             });
         }
     }
@@ -115,12 +123,18 @@ const Form = (props) => {
     //!
     const handleCategoryChange = (e) => {
         const { value } = e.target;
+
+        // const categoryIndex = incomeCategories.indexOf(value) //!
+        const categoryIndex = form.placeholder === 'Earnings' ? incomeCategories.indexOf(value) : expenseCategories.indexOf(value) //!
+        console.log('indexOf', categoryIndex);
+
         setCategory(value);
 
         // Опціонально можна очистити поле коментаря при зміні категорії:
         setForm({
             ...form,
             comment: value,
+            commentIndex: categoryIndex,//!
         });
     };
     //!
@@ -129,21 +143,23 @@ const Form = (props) => {
 
     return (
         <Wrapper Wrapper >
-            <Button id='income' className='chosen active' onClick={handleIncomeButtonClick}>Доходи</Button>
-            <Button id='expense' className='chosen ' onClick={handleExpenseButtonClick}>Витрати</Button>
+            <div className='buttons__container'>
+                <Button id='income' className='chosen active' onClick={handleIncomeButtonClick}>{T('balance.earnings')}</Button>
+                <Button id='expense' className='chosen ' onClick={handleExpenseButtonClick}>{T('balance.spendings')}</Button>
+            </div>
             {/* <FormattedMessage id="hello" /> */}
             <form onSubmit={onSubmit} data-testid="form">
                 <div className='formitems'>
                     <div className='formitems__item'>
                         <div className='formitems__content'>
-                            <div className='formitems__title'>You enter</div>
-                            <div className='formitems__value'>{form.placeholder}</div>
+                            <div className='formitems__title'>{T('form.category')}</div>
+                            <div className='formitems__value'>{form.placeholder === 'Earnings' ? T('balance.earnings') : T('balance.spendings')}</div>
                         </div>
                         <div className='formitems__icon formitems__icon-svg'><img src={form.placeholder === 'Spendings' ? down : up} /></div>
                     </div>
                     <div className='formitems__item'>
                         <div className='formitems__content'>
-                            <div className='formitems__title'>Currency</div>
+                            <div className='formitems__title'>{T('form.сurrency')}</div>
                             <div className='formitems__value'>{state.currency}</div>
                         </div>
                         <div className='formitems__icon'>{state.symbol}</div>
@@ -155,7 +171,7 @@ const Form = (props) => {
                         onChange={onChange}
                         name="value"
                         type='tel'
-                        placeholder={form.placeholder}
+                        placeholder={form.placeholder === 'Earnings' ? T('balance.earnings') : T('balance.spendings')}
                         required
                         autocomplete="off"
                         maxLength={9}
@@ -168,7 +184,6 @@ const Form = (props) => {
                         onChange={onChange}
                         name="date" type='date'
                     />
-                    {/* <Comment data-testid="comment" name='comment' value={form.comment} onChange={onChange} /> */}
 
                     <Comment
                         name="comment"
@@ -176,7 +191,7 @@ const Form = (props) => {
                         // onChange={onChange}
                         onChange={handleCategoryChange}
                     >
-                        <option>Виберіть категорію</option>
+                        <option>{T('categories.category')}</option>
                         {form.placeholder === 'Earnings'
                             ? incomeCategories.map((category) => (
                                 <option key={category} value={category}>
@@ -190,18 +205,18 @@ const Form = (props) => {
                             ))}
                     </Comment>
 
-                    {category === 'Інше' && (
+                    {category === T('categories.other') && (
                         <Input
                             data-testid="other-category"
                             onChange={onChange}
                             name="comment"
                             type="text"
                             maxLength={20} // Максимальна довжина тексту - 20 символів
-                            placeholder="Інше"
+                            placeholder={T('categories.other')}
                         />
                     )}
 
-                    <Button data-testid="save-button">Save</Button>
+                    <Button data-testid="save-button">{T('form.save')}</Button>
                 </Colomn>
             </form>
         </Wrapper>

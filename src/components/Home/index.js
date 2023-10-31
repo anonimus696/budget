@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import Balance from '../Balance';
 import Transactions from '../Transactions';
 import ErrorBoundary from '../ErrorBoundary';
+import { FormattedMessage } from 'react-intl';
 
 import { Wrapper } from './styles.js'
 import { STATUSES } from '../../constants'
@@ -100,7 +101,7 @@ const Home = ({ headerData, setHeaderData }) => {
                         filter={filter} setFilter={setFilter}//!
                     />
                     :
-                    <h2>You do not have any transaction yet, please press plus to add a new transaction</h2>
+                    <h2><FormattedMessage id="zero" /></h2>
                 }
 
 

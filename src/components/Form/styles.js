@@ -22,8 +22,8 @@ max-width: 500px;
 }
 .formitems__item{
     flex: 1 1 50%;
-    background-color: #fff;
-    box-shadow: 2px 5px 0px 0px rgba(0,0,0,0.1);
+    background-color: ${({ theme }) => theme.secondary};
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
     padding: 10px 10px;
     border-radius: 20px;
     display: flex;
@@ -52,6 +52,9 @@ max-width: 500px;
         padding: 10px;
     }
 }
+.buttons__container{
+display: flex;
+}
 `;
 
 Wrapper.displayName = 'FormWrapper';
@@ -69,7 +72,8 @@ export const Input = styled.input`
 padding: 0 5px;
 border: 1px solid #000;
 border-radius: 5px;
-min-width: 290px;
+/* min-width: 298px; */
+width: 96%;
 height: 40px;
 outline: none;
 transition: all 0.3s ease 0s;
@@ -118,7 +122,7 @@ export const Button = styled.button`
 padding: 10px 50px;
 /* border-radius: 20px; */
 border: 1px solid rgb(66, 142, 204);
-background-color: ${({ theme }) => theme.linkColor};
+background-color: #4318FF;
 color: #fff;
 min-width: 80px;
 height: 40px;
@@ -131,28 +135,25 @@ margin-bottom: 15px;
 &.chosen { 
     color: ${({ theme }) => theme.linkColor};
     background-color: transparent;
-    border: 1px solid ${({ theme }) => theme.linkColor};
+    border: 1px solid #4318FF;
 }
 &.active { 
-    background-color:  ${({ theme }) => theme.linkColor};
+    box-shadow: 2px 2px 2px 2px  #4318FF;
+    background-color: #4318FF;
     color: #fff;
-    box-shadow: 2px 2px 2px 2px  ${({ theme }) => theme.linkColor};
 }
-
 
 @media (min-width:767.98px){
     &.active{
         &:hover{
-        background-color:  ${({ theme }) => theme.linkColor};
-        color: #fff;
+        color:  #fff;
     }
     }
+    
     &:hover{
-    color: ${({ theme }) => theme.linkColor};
-    background-color: transparent;
-    box-shadow: 2px 2px 2px 2px  ${({ theme }) => theme.linkColor};
+    box-shadow: 2px 2px 2px 2px  #4318FF;
     cursor: pointer;
-}
+    }
 }
 `;
 

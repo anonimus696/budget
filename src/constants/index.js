@@ -1,9 +1,9 @@
 import STATUSES from './status'
-import conversionRates from './currencyRates'
+import RATES from './currencyRates'
 
 export {
     STATUSES
 }
 export {
-    conversionRates
+    RATES
 }
