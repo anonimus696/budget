@@ -5,8 +5,10 @@ import styled from 'styled-components'
 export const TransactionsWraper = styled.div`
 background-color: ${props => props.theme.secondary};
 border-radius: 20px;
-padding:  10px 10px 60px 10px;
+padding:  10px 10px 40px 10px;
 box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+
+margin-bottom: 65px;
 
 overflow: hidden;
 scroll-behavior: smooth;

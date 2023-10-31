@@ -4,7 +4,6 @@ export default {
     [LOCALES.ENGLISH]: {
         hello: 'Hello World!',
         zero: 'You do not have any transaction yet, please press plus to add a new transaction',
-        here: 'here',
 
         categories: {
             incomeCategories: "Salary,Caroling,Gift,Lottery,Other",
@@ -53,7 +52,7 @@ export default {
             page: 'About page',
             p1: 'The application is designed to track your own expenses and income and view statistics about them.',
             p2: 'To add a transaction, click the " + " button on the main page.',
-            p3: '"Developed based on the educational materials of',
+            p3: 'Developed based on the educational materials of',
         },
 
     }

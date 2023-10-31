@@ -4,7 +4,6 @@ export default {
     [LOCALES.UKRAINIAN]: {
         hello: 'Привіт Світ!',
         zero: 'У вас ще немає транзакцій натисніть плюс, щоб додати',
-        here: 'тут',
 
         categories: {
             incomeCategories: "Зарплатня,Колядки,Дав Бог,Лотерея,Інше",

@@ -72,8 +72,7 @@ export const Input = styled.input`
 padding: 0 5px;
 border: 1px solid #000;
 border-radius: 5px;
-/* min-width: 298px; */
-width: 96%;
+min-width: 96%;
 height: 40px;
 outline: none;
 transition: all 0.3s ease 0s;
@@ -99,7 +98,7 @@ Input.displayName = 'Input';
 export const Comment = styled.select`
 padding: 5px;
 border-radius: 5px;
-min-width: 80px;
+min-width: 96%;
 height: 40px;
 outline: none;
 transition: all 0.3s ease 0s;

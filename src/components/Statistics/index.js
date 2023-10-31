@@ -368,7 +368,7 @@ export const Statistics = () => {
                     </Charts >
                 </div>
                 :
-                <h2><FormattedMessage id="zero" /> <span><FormattedMessage id="here" /></span></h2>
+                <h2><FormattedMessage id="zero" /></h2>
             }
 
         </ChartsWrapper>
